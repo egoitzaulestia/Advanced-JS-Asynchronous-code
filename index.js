@@ -230,9 +230,9 @@ btnSearch.addEventListener('click', () => {
     console.log(inputTextValue)
     
     getAndPrintGitHubUserProfile(inputTextValue)
-    .then((html) => {
-        body.innerHTML += html;
-    })
+        .then((html) => {
+            body.innerHTML += html;
+        })
 })
 
 
