@@ -58,7 +58,6 @@ const getAllImagesByBreed = () => {
 }
 
 
-
 // Ejercicio 4:
 ///////////////
 
@@ -72,9 +71,6 @@ const getAllImagesByBreed2 = (breed) => {
         })
         .catch((err) => console.log(err))
 }
-
-
-
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -95,7 +91,6 @@ const getGitHubUserProfile = (username) => {
         })
         .catch((err) => console.log(err))
 }
-
 
 
 // Ejercicio 6:
@@ -134,6 +129,8 @@ const printGithubUserProfile = (username) => {
         .catch((err) => console.log(err))
 }
 
+// printGithubUserProfile('egoitzaulestia')
+
 
 
 // Ejercicio 7:
@@ -150,6 +147,7 @@ const printGithubUserProfile = (username) => {
 //     <p>Public repos: (número de repos)</p>
 // </section>
 // ```
+
 
 const getAndPrintGitHubUserProfile = (username) => {
     return axios.get(`https:/api.github.com/users/${username}`)
@@ -169,6 +167,39 @@ const getAndPrintGitHubUserProfile = (username) => {
         })
         .catch((err) => console.log(err))
 }
+
+
+// La siguiente función de flecha funcionaría si Jasmine ('index.spec.js') no estuviera creada solo para aceptar un .innerHTML.
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// const getAndPrintGitHubUserProfile = (username) => {
+//     return axios.get(`https:/api.github.com/users/${username}`)
+//     .then((user) => {
+//         const { name, avatar_url: img, public_repos: publicRepos } = user.data; 
+
+//         // const body = document.body;
+//         const tarjetaHtml = document.createElement('section');
+
+//         const userImg = document.createElement('img');
+//         userImg.setAttribute('src', img);
+//         userImg.setAttribute('alt', name);
+
+//         const userName = document.createElement('h1');
+//         userName.textContent = name;
+
+//         const numberOfpublicRepos = document.createElement('p');
+//         numberOfpublicRepos.textContent = `Public repos: ${publicRepos}`;
+
+//         tarjetaHtml.appendChild(userImg);
+//         tarjetaHtml.appendChild(userName);
+//         tarjetaHtml.appendChild(numberOfpublicRepos);
+
+//         return tarjetaHtml;
+
+//     })
+//     .catch((err) => console.log(err))
+// }
+
+
 
 
 
@@ -248,6 +279,85 @@ const fetchGithubUsers = (userNames) => {
             });
 };
 
+// const fetchGithubUsers = (userNames) => {
+//     return Promise.all(userNames.map(userUrl => {
+//         return fetch(`https://api.github.com/users/${userUrl}`)
+//             .then((res) => {
+//                 res.json()})
+//         }))
+//             .then((users) => {
+//                 users.forEach(user => {
+//                     if (user && user.repos_url && user.name) {
+//                         const { repos_url: urlRepo, name: userName } = user;
+//                         console.log(urlRepo);
+//                         console.log(userName);
+//                     } else {
+//                         console.warn("Invalid user object:", user);
+//                     }
+//                 });
+
+//             })
+// }
+
+
+// const fetchGithubUsers = (userNames) => {
+//     // For each username, fetch data and convert the response to JSON.
+//     return Promise.all(userNames.map(username => {
+//     return fetch(`https://api.github.com/users/${username}`)
+//         .then(res => {
+//         if (!res.ok) {
+//             throw new Error(`Error ${res.status} for user: ${username}`);
+//         }
+//         return res.json();
+//         });
+//     }))
+//     .then(users => {
+//     // Transform each user object into the required format.
+//     return users.map(user => {
+//         return {
+//         name: user.name,
+//         html_url: user.html_url
+//         };
+//     });
+//     })
+//     .catch(err => {
+//     console.error("Error fetching users:", err);
+//     // You may choose to return an empty array or rethrow the error.
+//     throw err;
+//     });
+// };
+
+
+// const fetchGithubUsers = (userNames) => {
+//     return Promise.all(userNames.map(userUrl => {
+//       return fetch(`https://api.github.com/users/${userUrl}`)
+//         .then((res) => {
+//           if (!res.ok) {
+//             throw new Error(`Error ${res.status} for user: ${userUrl}`);
+//           }
+//           return res.json();
+//         })
+//         .catch((err) => {
+//           console.warn(`Failed to fetch ${userUrl}:`, err.message);
+//           return null; // If fetch fails, return null.
+//         });
+//     }))
+//     .then((users) => {
+//       // Filter out any failed results (null or unexpected objects)
+//       return users
+//         .filter(user => user && user.name && user.html_url)
+//         .map(user => ({
+//           name: user.name,
+//           html_url: user.html_url
+//         }));
+//     })
+//     .catch((err) => {
+//       console.error("Something went wrong with Promise.all:", err.message);
+//       // Re-throw or return an empty array if desired.
+//       throw err;
+//     });
+//   };
+  
 
 
   
