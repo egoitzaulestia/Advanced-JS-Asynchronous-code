@@ -283,57 +283,85 @@ btnSearch.addEventListener('click', () => {
 //             })
 // }
 
-const fetchGithubUsers = (userNames) => {
-    return Promise.all(userNames.map(userUrl => {
-        return fetch(`https://api.github.com/users/${userUrl}`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(`Error ${res.status} for user: ${userUrl}`);
-                }
-                return res.json();
-            })
-            .catch(err => {
-                console.warn(`Failed to fetch ${userUrl}:`, err.message);
-                return null; 
-            });
-    }))
-    .then((users) => {
-        users.forEach(user => {
-            if (user && user.repos_url && user.name) {
-                const { repos_url: urlRepo, name: userName } = user;
-                console.log(urlRepo);
-                console.log(userName);
-            } else {
-                console.warn("Invalid user object:", user);
-            }
-        });
-    })
-    .catch(err => {
-        console.error("Something went wrong with Promise.all:", err.message);
-    });
-};
 
 // const fetchGithubUsers = (userNames) => {
-//     return Promise.all(userNames.map(userUrl => {
-//         return fetch(`https://api.github.com/users/${userUrl}`)
-//             .then((res) => {
-//                 return res.json();
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//                 return null;
-//             })
-//         }))
-//     .then((users) => {
-//         return users
-//             .filter(user => user && user.name && user.html_url)
-//             .map(user => ({
-//                 name: user.name,
-//                 html_url: user.html_url
-//             }));
+//     // For each username, fetch data and convert the response to JSON.
+//     return Promise.all(userNames.map(username => {
+//     return fetch(`https://api.github.com/users/${username}`)
+//         .then(res => {
+//         if (!res.ok) {
+//             throw new Error(`Error ${res.status} for user: ${username}`);
+//         }
+//         return res.json();
+//         });
+//     }))
+//     .then(users => {
+//     // Transform each user object into the required format.
+//     return users.map(user => {
+//         return {
+//         name: user.name,
+//         html_url: user.html_url
+//         };
+//     });
+//     })
+//     .catch(err => {
+//     console.error("Error fetching users:", err);
+//     // You may choose to return an empty array or rethrow the error.
+//     throw err;
 //     });
 // };
 
 
+// const fetchGithubUsers = (userNames) => {
+//     return Promise.all(userNames.map(userUrl => {
+//       return fetch(`https://api.github.com/users/${userUrl}`)
+//         .then((res) => {
+//           if (!res.ok) {
+//             throw new Error(`Error ${res.status} for user: ${userUrl}`);
+//           }
+//           return res.json();
+//         })
+//         .catch((err) => {
+//           console.warn(`Failed to fetch ${userUrl}:`, err.message);
+//           return null; // If fetch fails, return null.
+//         });
+//     }))
+//     .then((users) => {
+//       // Filter out any failed results (null or unexpected objects)
+//       return users
+//         .filter(user => user && user.name && user.html_url)
+//         .map(user => ({
+//           name: user.name,
+//           html_url: user.html_url
+//         }));
+//     })
+//     .catch((err) => {
+//       console.error("Something went wrong with Promise.all:", err.message);
+//       // Re-throw or return an empty array if desired.
+//       throw err;
+//     });
+//   };
+  
+
+
+const fetchGithubUsers = (userNames) => {
+    return Promise.all(userNames.map(username => {
+        return axios.get(`https://api.github.com/users/${username}`)
+            .then(user => user.data); 
+        }))
+        .then(users => {
+        // Map-eamos cada usuario con el formato indicado
+        return users.map(user => ({
+            name: user.name,
+            html_url: user.html_url
+        }));
+        })
+        .catch(err => {
+        console.error("Error fetching users with Axios:", err);
+        // Again, choose to return an empty array or rethrow.
+        throw err;
+    });
+};
+  
 
 
