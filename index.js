@@ -76,50 +76,50 @@ const getAllImagesByBreed2 = (breed) => {
 // 5.- Declarara una función **getGitHubUserProfile(username)** que obtenga el perfil de usuario de github 
 //     a partir de su nombre de usuario. (https://api.github.com/users/{username}).
 
-// const getGitHubUserProfile = (username) => {
-//     return axios.get(`https:/api.github.com/users/${username}`)
-//     .then((user) => {
-//         const userProfile = user.data;
-//         // console.log(user)
-//         return userProfile;
-//     })
-//     .catch((err) => console.log(err))
-// }
+const getGitHubUserProfile = (username) => {
+    return axios.get(`https:/api.github.com/users/${username}`)
+    .then((user) => {
+        const userProfile = user.data;
+        // console.log(user)
+        return userProfile;
+    })
+    .catch((err) => console.log(err))
+}
 
 
 // - 6.- Declara una función **printGithubUserProfile(username)** que reciba como argumento el nombre de un usuario (username), 
 //       retorne {img, name} y pinte la foto y el nombre en el DOM.
 
-// const printGithubUserProfile = (username) => {
-//     return axios.get(`https:/api.github.com/users/${username}`)
-//     .then((user) => {
-//         // Desestructuramos el objeto user.data 
-//         // Recuperamos 'name' y asignamos 'img' a avatar_url usando ":" 
-//         const { name, avatar_url: img } = user.data;
+const printGithubUserProfile = (username) => {
+    return axios.get(`https:/api.github.com/users/${username}`)
+    .then((user) => {
+        // Desestructuramos el objeto user.data 
+        // Recuperamos 'name' y asignamos 'img' a avatar_url usando ":" 
+        const { name, avatar_url: img } = user.data;
 
-//         // Capturamos el elemento <body> del DOM
-//         const body = document.body;
+        // Capturamos el elemento <body> del DOM
+        const body = document.body;
 
-//         // Creamos elemento HTML <img>
-//         const imgUser = document.createElement('img');
-//         imgUser.setAttribute('src', img); // Establecemos atributo 'src' y URL en el elemento <img>
-//         imgUser.setAttribute('alt', 'imagen de usuario'); // Establecemos atributo 'src' y URL en el elemento <img>
+        // Creamos elemento HTML <img>
+        const imgUser = document.createElement('img');
+        imgUser.setAttribute('src', img); // Establecemos atributo 'src' y URL en el elemento <img>
+        imgUser.setAttribute('alt', 'imagen de usuario'); // Establecemos atributo 'src' y URL en el elemento <img>
 
-//         // Creamos elemento HTML <h1>
-//         const userName = document.createElement('h1');
-//         userName.textContent = name; // Asignamos el nombre del usario al elmento <h1>
+        // Creamos elemento HTML <h1>
+        const userName = document.createElement('h1');
+        userName.textContent = name; // Asignamos el nombre del usario al elmento <h1>
 
-//         // Añadimos elemento al body
-//         body.appendChild(imgUser);
-//         body.appendChild(userName);
+        // Añadimos elemento al body
+        body.appendChild(imgUser);
+        body.appendChild(userName);
 
-//         // Retornamos img y name
-//         return { img, name };
+        // Retornamos img y name
+        return { img, name };
 
-//     })
-//     .catch((err) => console.log(err))
+    })
+    .catch((err) => console.log(err))
 
-// }
+}
 
 // printGithubUserProfile('egoitzaulestia')
 
@@ -239,7 +239,8 @@ btnSearch.addEventListener('click', () => {
 
 // ### GitHub API (II)- Promesas, promesas y más promesas ###
 
-// - TODO: 9.- Dada una lista de usuarios de github guardada en una array,crea una funcion **fetchGithubUsers(userNames)** que utilice 'https://api.github.com/users/${name}' para obtener el nombre de cada usuario. \
+// - TODO: 9.- Dada una lista de usuarios de github guardada en una array, 
+// crea una funcion **fetchGithubUsers(userNames)** que utilice 'https://api.github.com/users/${name}' para obtener el nombre de cada usuario. \
 // Objetivo: Usar Promise.all()\
 // Recordatorio: Una llamada a fetch() devuelve un objeto promesa.\
 // Pregunta. ¿cuántas promesas tendremos?
@@ -249,7 +250,85 @@ btnSearch.addEventListener('click', () => {
 // Pasos:
 
 // - Mapear el array y hacer un fetch() para cada usuario. Esto nos de vuelve un array lleno de promesas.
+
+
 // - Con Promise.all() harás que se tenga que resolver todo el proceso de peticiones a GitHub a la vez.
 // - Cuando Promise.all() haya terminado:
 // Consigue que se imprima por consola la url del repositorio de cada usuario.
 // Consigue que se imprima por consola el nombre de cada usuario.
+
+
+// const fetchGithubUsers = (userNames) => {
+//     return Promise.all(userNames.map(userUrl => {
+//         return fetch(`https://api.github.com/users/${userUrl}`)
+//             .then((res) => {
+//                 res.json()})
+//         }))
+//             .then((users) => {
+//                 users.forEach(user => {
+//                     if (user && user.repos_url && user.name) {
+//                         const { repos_url: urlRepo, name: userName } = user;
+//                         console.log(urlRepo);
+//                         console.log(userName);
+//                     } else {
+//                         console.warn("Invalid user object:", user);
+//                     }
+//                 });
+
+//             })
+// }
+
+const fetchGithubUsers = (userNames) => {
+    return Promise.all(userNames.map(userUrl => {
+        return fetch(`https://api.github.com/users/${userUrl}`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`Error ${res.status} for user: ${userUrl}`);
+                }
+                return res.json();
+            })
+            .catch(err => {
+                console.warn(`Failed to fetch ${userUrl}:`, err.message);
+                return null; 
+            });
+    }))
+    .then((users) => {
+        users.forEach(user => {
+            if (user && user.repos_url && user.name) {
+                const { repos_url: urlRepo, name: userName } = user;
+                console.log(urlRepo);
+                console.log(userName);
+            } else {
+                console.warn("Invalid user object:", user);
+            }
+        });
+    })
+    .catch(err => {
+        console.error("Something went wrong with Promise.all:", err.message);
+    });
+};
+
+// const fetchGithubUsers = (userNames) => {
+//     return Promise.all(userNames.map(userUrl => {
+//         return fetch(`https://api.github.com/users/${userUrl}`)
+//             .then((res) => {
+//                 return res.json();
+//             })
+//             .catch((err) => {
+//                 console.log(err);
+//                 return null;
+//             })
+//         }))
+//     .then((users) => {
+//         return users
+//             .filter(user => user && user.name && user.html_url)
+//             .map(user => ({
+//                 name: user.name,
+//                 html_url: user.html_url
+//             }));
+//     });
+// };
+
+
+
+
