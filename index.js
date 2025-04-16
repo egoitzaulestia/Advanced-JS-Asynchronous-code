@@ -350,17 +350,16 @@ const fetchGithubUsers = (userNames) => {
             .then(user => user.data); 
         }))
         .then(users => {
-        // Map-eamos cada usuario con el formato indicado
-        return users.map(user => ({
-            name: user.name,
-            html_url: user.html_url
-        }));
+            // Map-eamos cada usuario con el formato indicado
+            return users.map(user => ({
+                name: user.name,
+                html_url: user.html_url
+            }));
         })
         .catch(err => {
-        console.error("Error fetching users with Axios:", err);
-        // Again, choose to return an empty array or rethrow.
-        throw err;
-    });
+            console.error("Error fetching users with Axios:", err);
+            throw err;
+        });
 };
   
 
