@@ -1,4 +1,9 @@
-//RESUELVE TUS EJERCICIOS AQUI
+// APIs 
+
+// Pair Programming
+const dev0 = 'Ainhoa Colorado'
+const dev1 = 'Paula Martinez'
+const dev2 = 'Egoitz Aulestia'
 
 // Utiliza la API (https://dog.ceo/dog-api/) para resolver estos ejercicios.
 
@@ -166,33 +171,6 @@ const printGithubUserProfile = (username) => {
 // }
 
 
-// const getAndPrintGitHubUserProfile = (username) => {
-//     return axios.get(`https:/api.github.com/users/${username}`)
-//     .then((user) => {
-//         const { name, avatar_url: img, public_repos: publicRepos } = user.data; 
-
-//         const htmlCard = `  
-//                         <section>
-//                             <img src="${img}" alt="${name}">
-//                             <h1>${name}</h1>
-//                             <p>Public repos: ${publicRepos}</p>
-//                         </section>
-//                         `;
-
-//         return htmlCard;
-
-//     })
-//     .catch((err) => console.log(err))
-// }
-
-
-
-
-// - TODO: 8.- Manipulación del DOM: Crea un input de tipo texto, y un botón buscar. 
-// El usuario escribirá en el input el nombre de usuario de GitHub que quiera buscar. 
-// Después llamaremos a la función **getAndPrintGitHubUserProfile(username)** 
-// que se ejecute cuando se pulse el botón buscar.(Esto no se testea).
-
 const getAndPrintGitHubUserProfile = (username) => {
     return axios.get(`https:/api.github.com/users/${username}`)
     .then((user) => {
@@ -211,6 +189,33 @@ const getAndPrintGitHubUserProfile = (username) => {
     })
     .catch((err) => console.log(err))
 }
+
+
+
+
+// - TODO: 8.- Manipulación del DOM: Crea un input de tipo texto, y un botón buscar. 
+// El usuario escribirá en el input el nombre de usuario de GitHub que quiera buscar. 
+// Después llamaremos a la función **getAndPrintGitHubUserProfile(username)** 
+// que se ejecute cuando se pulse el botón buscar.(Esto no se testea).
+
+// const getAndPrintGitHubUserProfile = (username) => {
+//     return axios.get(`https:/api.github.com/users/${username}`)
+//     .then((user) => {
+//         const { name, avatar_url: img, public_repos: publicRepos } = user.data; 
+
+//         const htmlCard = `  
+//                         <section>
+//                             <img src="${img}" alt="${name}">
+//                             <h1>${name}</h1>
+//                             <p>Public repos: ${publicRepos}</p>
+//                         </section>
+//                         `;
+
+//         return htmlCard;
+
+//     })
+//     .catch((err) => console.log(err))
+// }
 
 const body = document.body;
 
