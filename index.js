@@ -25,6 +25,21 @@ const getAllBreeds = () => {
 };
 
 
+//// Fetch option
+// let  breeds = [];
+
+// function getAllBreeds() {
+//     return fetch('https://dog.ceo/api/breeds/list/all')
+//         .then(response => response.json())
+//         .then(data => {
+//             breeds = Object.keys(data.message);
+//             return breeds;
+//         })
+//         .catch((err) => console.log(err))
+// }
+
+
+
 
 // Ejercicio 2:
 ///////////////
@@ -42,6 +57,18 @@ const getRandomDog = () => {
 }
 
 
+//// Fetch option
+// function getRandomDog() {
+//     return fetch('https://dog.ceo/api/breeds/image/random')
+//         .then(response => response.json())
+//         .then(data => {
+//             return data.message;
+//         })
+//         .catch((err) => console.log(err))
+// }
+
+
+
 
 // Ejercicio 3:
 ///////////////
@@ -56,6 +83,17 @@ const getAllImagesByBreed = () => {
         })
         .catch((err) => console.log(err))
 }
+
+//// Fetch option
+// function getAllImagesByBreed() {
+//     return fetch('https://dog.ceo/api/breed/komondor/images')
+//         .then(response => response.json())
+//         .then(data => {
+//             return data.message;
+//         })
+//         .catch((err) => console.log(err))
+// }
+
 
 
 
@@ -72,6 +110,18 @@ const getAllImagesByBreed2 = (breed) => {
         })
         .catch((err) => console.log(err))
 }
+
+
+//// Option B
+// function getAllImagesByBreed2(breed) {
+//     return axios.get(`https://dog.ceo/api/breed/${breed}/images`)
+//         .then(response => {
+//             return response.data.message;
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         });
+// }
 
 
 
@@ -95,6 +145,17 @@ const getGitHubUserProfile = (username) => {
         })
         .catch((err) => console.log(err))
 }
+
+
+//// Option B
+// function getGitHubUserProfile(username) {
+//     return axios.get(`https://api.github.com/users/${username}`) 
+//         .then(response => {
+//             return response.data; 
+//         })    
+//         .catch(error => console.error('Error:', error)); 
+// }
+
 
 
 
@@ -133,6 +194,26 @@ const printGithubUserProfile = (username) => {
         })
         .catch((err) => console.log(err))
 }
+
+
+//// Option B
+// function printGithubUserProfile(username) {
+//     return axios.get(`https://api.github.com/users/${username}`)
+//         .then(response => {
+//             const img = response.data.avatar_url; 
+//             const name = response.data.name; 
+//             const userContainer = document.createElement('div');
+//             const profileImg = document.createElement('img'); 
+//             const profileName = document.createElement('h1'); 
+//             profileImg.src = img; 
+//             profileName.innerText = name; 
+//             userContainer.appendChild(profileImg); 
+//             userContainer.appendChild(profileName); 
+//             document.body.appendChild(userContainer);
+//             return {img, name}; 
+//         })
+//         .catch(error => console.error('Error:', error)); 
+// }
 
 
 
@@ -249,6 +330,33 @@ const fetchGithubUsers = (userNames) => {
 };
 
 
+//// Option B
+// const fetchGithubUsers = (userNames) => {
+//     // For each username, fetch data and convert the response to JSON.
+//     return Promise.all(userNames.map(username => {
+//     return fetch(`https://api.github.com/users/${username}`)
+//         .then(res => {
+//         if (!res.ok) {
+//             throw new Error(`Error ${res.status} for user: ${username}`);
+//         }
+//         return res.json();
+//         });
+//     }))
+//     .then(users => {
+//     // Transform each user object into the required format.
+//     return users.map(user => {
+//         return {
+//         name: user.name,
+//         html_url: user.html_url
+//         };
+//     });
+//     })
+//     .catch(err => {
+//     console.error("Error fetching users:", err);
+//     // You may choose to return an empty array or rethrow the error.
+//     throw err;
+//     });
+// };
 
   
 
