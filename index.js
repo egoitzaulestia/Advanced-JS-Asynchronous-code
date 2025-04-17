@@ -330,7 +330,7 @@ const fetchGithubUsers = (userNames) => {
 };
 
 
-//// Option B
+//// Option B 
 // const fetchGithubUsers = (userNames) => {
 //     // For each username, fetch data and convert the response to JSON.
 //     return Promise.all(userNames.map(username => {
