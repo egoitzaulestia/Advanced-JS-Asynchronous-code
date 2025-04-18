@@ -392,7 +392,7 @@ btnSearch.addEventListener('click', async () => {
     try {
         const inputTextValue = inputText.value;
         console.log(inputTextValue);
-        
+
         const html = await getAndPrintGitHubUserProfile(inputTextValue);
         body.innerHTML += html;
         
